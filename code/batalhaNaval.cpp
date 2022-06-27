@@ -67,6 +67,60 @@ char formLetter(int cont){
     }
     return letter;
 }
+int formNumber(char letter){
+    int number;
+    switch(letter){
+        case 'a':
+            number = 0;
+            break;
+        case 'b':
+            number = 1;
+            break;
+        case 'c':
+            number = 2;
+            break;
+        case 'd':
+            number = 3;
+            break;
+        case 'e':
+            number = 4;
+            break;
+        case 'f':
+            number = 5;
+            break;
+        case 'g':
+            number = 6;
+            break;
+        case 'h':
+            number = 7;
+            break;
+        case 'i':
+            number = 8;
+            break;
+        case 'j':
+            number = 9;
+            break;
+        case 'k':
+            number = 10;
+            break;
+        case 'l':
+            number = 11;
+            break;
+        case 'm':
+            number = 12;
+            break;
+        case 'n':
+            number = 13;
+            break;
+        case 'o':
+            number = 14;
+            break;
+        default:
+            number = 15;
+            break;
+    }
+    return number;
+}
 
 void exibeMapa(){
     char normal[] = {0x1b,'[','1',';','3','9','m',0};
@@ -156,7 +210,10 @@ void menuInicial();
 
 void Jogo(string nomeDoJogador){
     char tabuleiro[15][15],mascara[15][15];
-    int linhaJogada, colunaJogada; // if estado_deJogo == 0, game over
+    int linhaJogada,colunaReal; // if estado_deJogo == 0, game over
+    char colunaJogada;
+    char red[] = {0x1b,'[','1',';','3','1','m',0};
+    char normal[] = {0x1b,'[','1',';','3','9','m',0};
     int pontos=0,tentativas=0,maximoDeTentativas=3,opcao=1;
     string mensagem = "Bem vindo ao jogo";
 
@@ -170,19 +227,20 @@ void Jogo(string nomeDoJogador){
         cout<<mensagem;
         
         linhaJogada = -1;                        //verificar dados
-        colunaJogada = -1;
+        colunaReal = -1;
 
-        while((linhaJogada<0||colunaJogada<0)||(linhaJogada>14||colunaJogada>14)){
-            cout <<"\n\n"<<nomeDoJogador<<", digite uma LINHA: ";
+        while((linhaJogada<0||colunaReal<0)||(linhaJogada>14||colunaReal>14)){
+            cout <<"\n\n"<<nomeDoJogador<<", digite um "<<red<<"NUMERO"<<normal<<" para "<<red<<"LINHA: "<<normal;
             cin >> linhaJogada;
-            cout <<"\n"<<nomeDoJogador<<", digite uma COLUNA: ";
+            cout <<"\n"<<nomeDoJogador<<", digite um "<<red<<"LETRA"<<normal<<" para "<<red<<"COLUNA: "<<normal;
             cin >> colunaJogada;
+            colunaReal = formNumber(tolower(colunaJogada));
         }
 
         
-        verificaTiro(tabuleiro,linhaJogada,colunaJogada,&pontos,&mensagem);
+        verificaTiro(tabuleiro,linhaJogada,colunaReal,&pontos,&mensagem);
 
-        mascara[linhaJogada][colunaJogada] = tabuleiro[linhaJogada][colunaJogada];
+        mascara[linhaJogada][colunaReal] = tabuleiro[linhaJogada][colunaReal];
         tentativas++;
     }
     limpaTela();
