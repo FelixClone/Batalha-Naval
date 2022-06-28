@@ -130,7 +130,6 @@ void exibeMapa(){
         
         if(cont==0){
             cout<<"      ";
-            letter='A';
         }
         cout<<formLetter(cont)<<" ";
         
@@ -147,6 +146,10 @@ void exibeMapa(){
 void exibeTabuleiro(char tabuleiro[15][15],char mascara[15][15],bool mostraGabarito){
     char blue[] = {0x1b,'[','1',';','3','4','m',0};
     char green[] = {0x1b,'[','1',';','3','2','m',0};
+    char yellow[] = {0x1b,'[','1',';','3','3','m',0};
+    char pink[] = {0x1b,'[','1',';','3','5','m',0};
+    char gray[] = {0x1b,'[','1',';','3','0','m',0};
+    char red[] = {0x1b,'[','1',';','3','1','m',0};
     char normal[] = {0x1b,'[','1',';','3','9','m',0};
     cout<<normal;
     for(int linha=0;linha<15;linha++){
@@ -160,8 +163,20 @@ void exibeTabuleiro(char tabuleiro[15][15],char mascara[15][15],bool mostraGabar
                 case 'A':
                     cout<< blue<<" "<<mascara[linha][coluna]<<normal;
                     break;
-                case 'P':
+                case 'S':
                     cout<< green<<" "<<mascara[linha][coluna]<<normal;
+                    break;
+                case 'E':
+                    cout<< yellow<<" "<<mascara[linha][coluna]<<normal;
+                    break;
+                case 'H':
+                    cout<< pink<<" "<<mascara[linha][coluna]<<normal;
+                    break;
+                case 'P':
+                    cout<< gray<<" "<<mascara[linha][coluna]<<normal;
+                    break;
+                case 'C':
+                    cout<< red<<" "<<mascara[linha][coluna]<<normal;
                     break;
                 default:
                     cout<<" "<<mascara[linha][coluna];
@@ -184,22 +199,111 @@ void exibeTabuleiro(char tabuleiro[15][15],char mascara[15][15],bool mostraGabar
 
 }
 void posicaoDosBarcos(char tabuleiro[15][15]){
-    int quantidade = 15, quantidadePosicionada = 0;
-    while(quantidadePosicionada < quantidade){
+    int quantidadeDeSubMarino = 4, quantidadeDeHidroAviao=3,quantidadeDeEncouracado=2,quantidadeDePortaAviao=1,quantidadeDeCruzadores=3;
+    int quantidadePosicionada=0;
+    while(quantidadePosicionada < quantidadeDeSubMarino){
         int linhaAleatoria = rand() % 15;
         int colunaAleatoria = rand() % 15;
         if(tabuleiro[linhaAleatoria][colunaAleatoria]=='A'){
-            tabuleiro[linhaAleatoria][colunaAleatoria] = 'P';
+            tabuleiro[linhaAleatoria][colunaAleatoria] = 'S';
             quantidadePosicionada++;
         }
         
     }
+    quantidadePosicionada=0;
+
+    //Hidro Aviao
+
+    while(quantidadePosicionada<quantidadeDeHidroAviao){
+        int linhaAleatoria = rand() % 15;
+        int colunaAleatoria = rand() % 15;
+        
+        if((tabuleiro[linhaAleatoria][colunaAleatoria]=='A')&&(linhaAleatoria>=0 && linhaAleatoria<13)){
+            if((tabuleiro[linhaAleatoria][colunaAleatoria+2]=='A')&&(colunaAleatoria>0 && colunaAleatoria<12)){
+                if(tabuleiro[linhaAleatoria+1][colunaAleatoria+1]=='A'){
+                    tabuleiro[linhaAleatoria][colunaAleatoria] = 'H';
+                    tabuleiro[linhaAleatoria][colunaAleatoria+2] = 'H';
+                    tabuleiro[linhaAleatoria+1][colunaAleatoria+1] = 'H';
+                    quantidadePosicionada++;    
+
+                }
+            }
+        }    
+    }
+    quantidadePosicionada=0;
+
+    //Encouraçado
+
+    while(quantidadePosicionada<quantidadeDeEncouracado){
+        int linhaAleatoria = rand() % 15;
+        int colunaAleatoria = rand() % 15;
+        if((tabuleiro[linhaAleatoria][colunaAleatoria]=='A'&&tabuleiro[linhaAleatoria][colunaAleatoria+1]=='A')&&(tabuleiro[linhaAleatoria][colunaAleatoria+2]=='A'&&tabuleiro[linhaAleatoria][colunaAleatoria+3]=='A')){
+            if(colunaAleatoria<11){
+                tabuleiro[linhaAleatoria][colunaAleatoria] = 'E';
+                tabuleiro[linhaAleatoria][colunaAleatoria+1] = 'E';
+                tabuleiro[linhaAleatoria][colunaAleatoria+2] = 'E';
+                tabuleiro[linhaAleatoria][colunaAleatoria+3] = 'E';
+                quantidadePosicionada++;
+            }
+        }
+    }
+    quantidadePosicionada=0;
+
+    //Porta-aviões 
+
+    while(quantidadePosicionada<quantidadeDePortaAviao){
+        int linhaAleatoria = rand() % 15;
+        int colunaAleatoria = rand() % 15;
+        if((tabuleiro[linhaAleatoria][colunaAleatoria]=='A'&&tabuleiro[linhaAleatoria][colunaAleatoria+1]=='A')&&(tabuleiro[linhaAleatoria][colunaAleatoria+2]=='A'&&tabuleiro[linhaAleatoria][colunaAleatoria+3]=='A')){
+            if(tabuleiro[linhaAleatoria][colunaAleatoria+4]=='A'&&colunaAleatoria<10){
+                tabuleiro[linhaAleatoria][colunaAleatoria] = 'P';
+                tabuleiro[linhaAleatoria][colunaAleatoria+1] = 'P';
+                tabuleiro[linhaAleatoria][colunaAleatoria+2] = 'P';
+                tabuleiro[linhaAleatoria][colunaAleatoria+3] = 'P';
+                tabuleiro[linhaAleatoria][colunaAleatoria+4] = 'P';
+                quantidadePosicionada++;
+            }
+        }
+    }
+
+    quantidadePosicionada=0;
+
+    //Cruzadores
+
+    while(quantidadePosicionada<quantidadeDeCruzadores){
+        int linhaAleatoria = rand() % 15;
+        int colunaAleatoria = rand() % 15;
+        if(tabuleiro[linhaAleatoria][colunaAleatoria]=='A'&&tabuleiro[linhaAleatoria][colunaAleatoria+1]=='A'){
+            if(colunaAleatoria<13){
+                tabuleiro[linhaAleatoria][colunaAleatoria] = 'C';
+                tabuleiro[linhaAleatoria][colunaAleatoria+1] = 'C';
+                quantidadePosicionada++;
+            }
+        }
+    }
+
 }
 void verificaTiro(char tabuleiro[15][15],int linhaJogada,int colunaJogada,int *pontos,string *msg){
     switch(tabuleiro[linhaJogada][colunaJogada]){
+            case 'S':
+                *pontos = *pontos + 50;
+                *msg = "Belo tiro, vc acertou um Submarino (50 pts)";
+                break;
+            case 'E':
+                *pontos = *pontos + 12;
+                *msg = "Belo tiro, vc acertou um Encouraçado (12 pts)";
+                break;
+            case 'H':
+                *pontos = *pontos + 16;
+                *msg = "Belo tiro, vc acertou um Hidroavião (16 pts)";
+                break;
             case 'P':
-                *pontos = *pontos + 10;
-                *msg = "Belo tiro, vc acertou um barco pequeno (10 pts)";
+                *pontos = *pontos + 5;
+                *msg = "Belo tiro, vc acertou um Porta-aviões(5 pts)";
+                break;
+            case 'C':
+                *pontos = *pontos + 25;
+                *msg = "Belo tiro, vc acertou um Cruzador (25 pts)";
                 break;
             case 'A':
                 *msg = "Mais sorte na proxima vez, vc acertou a agua";
@@ -214,7 +318,7 @@ void Jogo(string nomeDoJogador){
     char colunaJogada;
     char red[] = {0x1b,'[','1',';','3','1','m',0};
     char normal[] = {0x1b,'[','1',';','3','9','m',0};
-    int pontos=0,tentativas=0,maximoDeTentativas=3,opcao=1;
+    int pontos=0,tentativas=0,maximoDeTentativas=15,opcao=1;
     string mensagem = "Bem vindo ao jogo";
 
     iniciaTabuleiro(tabuleiro,mascara);
@@ -223,7 +327,7 @@ void Jogo(string nomeDoJogador){
         limpaTela();
         exibeMapa();
         exibeTabuleiro(tabuleiro,mascara,false);
-        cout << "\nPontos: "<<pontos<<"\n"<<"Tentativas Restantes: "<<maximoDeTentativas - tentativas<<"\n";
+        cout << "\nPontos: "<<pontos<<"\n"<<red<<"Bombas restantes: "<<normal<<maximoDeTentativas - tentativas<<"\n";
         cout<<mensagem;
         
         linhaJogada = -1;                        //verificar dados
@@ -232,7 +336,7 @@ void Jogo(string nomeDoJogador){
         while((linhaJogada<0||colunaReal<0)||(linhaJogada>14||colunaReal>14)){
             cout <<"\n\n"<<nomeDoJogador<<", digite um "<<red<<"NUMERO"<<normal<<" para "<<red<<"LINHA: "<<normal;
             cin >> linhaJogada;
-            cout <<"\n"<<nomeDoJogador<<", digite um "<<red<<"LETRA"<<normal<<" para "<<red<<"COLUNA: "<<normal;
+            cout <<"\n"<<nomeDoJogador<<", digite uma "<<red<<"LETRA"<<normal<<" para "<<red<<"COLUNA: "<<normal;
             cin >> colunaJogada;
             colunaReal = formNumber(tolower(colunaJogada));
         }
@@ -256,7 +360,7 @@ void Jogo(string nomeDoJogador){
             break;
         case 3:
             limpaTela();
-            cout<<"\t  GAMEOVER\n";
+            cout<<red<<"\t  GAMEOVER\n"<<normal;
             cout<<"----------------------------\n";
             cout<<"Nome:\t"<<nomeDoJogador;
             cout<<"\n----------------------------\n";
