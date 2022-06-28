@@ -10,8 +10,7 @@
 
 
 <p align="center">
-   <a href="#Preview">Preview</a> |
-   <a href="#Curso">Curso</a> 
+   <a href="#Preview">Preview</a> 
 </p><hr>
 
 
