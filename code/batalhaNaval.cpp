@@ -198,6 +198,49 @@ void exibeTabuleiro(char tabuleiro[15][15],char mascara[15][15],bool mostraGabar
     
 
 }
+void exibeGabaritoFinal(char tabuleiro[15][15]){
+    char red[] = {0x1b,'[','1',';','3','1','m',0};
+    char normal[] = {0x1b,'[','1',';','3','9','m',0};
+    char blue[] = {0x1b,'[','1',';','3','4','m',0};
+    char green[] = {0x1b,'[','1',';','3','2','m',0};
+    char yellow[] = {0x1b,'[','1',';','3','3','m',0};
+    char pink[] = {0x1b,'[','1',';','3','5','m',0};
+    char gray[] = {0x1b,'[','1',';','3','0','m',0};
+
+    for(int linha=0;linha<15;linha++){
+        if(linha<10){
+            cout<<" "<<linha<<" - ";
+        }else{
+            cout<<linha<<" - ";
+        }
+        for(int coluna=0;coluna<15;coluna++){
+            switch(tabuleiro[linha][coluna]){
+                case 'A':
+                    cout<< blue<<" "<<tabuleiro[linha][coluna]<<normal;
+                    break;
+                case 'S':
+                    cout<< green<<" "<<tabuleiro[linha][coluna]<<normal;
+                    break;
+                case 'E':
+                    cout<< yellow<<" "<<tabuleiro[linha][coluna]<<normal;
+                    break;
+                case 'H':
+                    cout<< pink<<" "<<tabuleiro[linha][coluna]<<normal;
+                    break;
+                case 'P':
+                    cout<< gray<<" "<<tabuleiro[linha][coluna]<<normal;
+                    break;
+                case 'C':
+                    cout<< red<<" "<<tabuleiro[linha][coluna]<<normal;
+                    break;
+                default:
+                    cout<<" "<<tabuleiro[linha][coluna];
+                    break;
+            }
+        }
+        cout << "\n";
+    }
+}
 void posicaoDosBarcos(char tabuleiro[15][15]){
     int quantidadeDeSubMarino = 4, quantidadeDeHidroAviao=3,quantidadeDeEncouracado=2,quantidadeDePortaAviao=1,quantidadeDeCruzadores=3;
     int quantidadePosicionada=0;
@@ -318,6 +361,7 @@ void Jogo(string nomeDoJogador){
     char colunaJogada;
     char red[] = {0x1b,'[','1',';','3','1','m',0};
     char normal[] = {0x1b,'[','1',';','3','9','m',0};
+
     int pontos=0,tentativas=0,maximoDeTentativas=15,opcao=1;
     string mensagem = "Bem vindo ao jogo";
 
@@ -347,7 +391,10 @@ void Jogo(string nomeDoJogador){
         mascara[linhaJogada][colunaReal] = tabuleiro[linhaJogada][colunaReal];
         tentativas++;
     }
-    limpaTela();
+    limpaTela();    
+    cout<<normal;
+    exibeMapa();
+    exibeGabaritoFinal(tabuleiro);
     cout<<"\nFim de jogo, o que deseja fazer?";
     cout<<"\n1- Jogar novamente\n2- Ir para o menu inicial\n3- Sair\n";
     cin >> opcao;
