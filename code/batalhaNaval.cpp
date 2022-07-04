@@ -392,6 +392,7 @@ void Jogo(string nomeDoJogador){
         tentativas++;
     }
     limpaTela();
+    cout<<normal;
     exibeMapa();
     exibeGabaritoFinal(tabuleiro);
     cout<<"\nFim de jogo, o que deseja fazer?";
@@ -413,10 +414,7 @@ void Jogo(string nomeDoJogador){
             cout<<"Pontos:\t"<<pontos;
             cout<<"\n----------------------------\n";
             break;
-        }
-    
-
-
+    }
 }
 
 void menuInicial(){
