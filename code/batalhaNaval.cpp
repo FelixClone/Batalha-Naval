@@ -16,7 +16,7 @@ void iniciaTabuleiro(char tabuleiro[15][15],char mascara[15][15]){
         }
     }
 }
-char formLetter(int cont){
+char turnIntoLyrics(int cont){
     char letter;
     switch(cont){
         case 0:
@@ -67,7 +67,7 @@ char formLetter(int cont){
     }
     return letter;
 }
-int formNumber(char letter){
+int turnIntoNumber(char letter){
     int number;
     switch(letter){
         case 'a':
@@ -121,7 +121,6 @@ int formNumber(char letter){
     }
     return number;
 }
-
 void exibeMapa(){
     char normal[] = {0x1b,'[','1',';','3','9','m',0};
     cout<<normal;
@@ -131,7 +130,7 @@ void exibeMapa(){
         if(cont==0){
             cout<<"      ";
         }
-        cout<<formLetter(cont)<<" ";
+        cout<<turnIntoLyrics(cont)<<" ";
         
     }
     cout<<"\n";
@@ -151,6 +150,8 @@ void exibeTabuleiro(char tabuleiro[15][15],char mascara[15][15],bool mostraGabar
     char gray[] = {0x1b,'[','1',';','3','0','m',0};
     char red[] = {0x1b,'[','1',';','3','1','m',0};
     char normal[] = {0x1b,'[','1',';','3','9','m',0};
+
+    
     cout<<normal;
     for(int linha=0;linha<15;linha++){
         if(linha<10){
@@ -333,16 +334,16 @@ void verificaTiro(char tabuleiro[15][15],int linhaJogada,int colunaJogada,int *p
                 *msg = "Belo tiro, vc acertou um Submarino (50 pts)";
                 break;
             case 'E':
-                *pontos = *pontos + 12;
-                *msg = "Belo tiro, vc acertou um Encouraçado (12 pts)";
+                *pontos = *pontos + 13;
+                *msg = "Belo tiro, vc acertou um Encouraçado (13 pts)";
                 break;
             case 'H':
-                *pontos = *pontos + 16;
-                *msg = "Belo tiro, vc acertou um Hidroavião (16 pts)";
+                *pontos = *pontos + 17;
+                *msg = "Belo tiro, vc acertou um Hidroavião (17 pts)";
                 break;
             case 'P':
-                *pontos = *pontos + 5;
-                *msg = "Belo tiro, vc acertou um Porta-aviões(5 pts)";
+                *pontos = *pontos + 10;
+                *msg = "Belo tiro, vc acertou um Porta-aviões(10 pts)";
                 break;
             case 'C':
                 *pontos = *pontos + 25;
@@ -361,7 +362,6 @@ void Jogo(string nomeDoJogador){
     char colunaJogada;
     char red[] = {0x1b,'[','1',';','3','1','m',0};
     char normal[] = {0x1b,'[','1',';','3','9','m',0};
-
     int pontos=0,tentativas=0,maximoDeTentativas=15,opcao=1;
     string mensagem = "Bem vindo ao jogo";
 
@@ -382,7 +382,7 @@ void Jogo(string nomeDoJogador){
             cin >> linhaJogada;
             cout <<"\n"<<nomeDoJogador<<", digite uma "<<red<<"LETRA"<<normal<<" para "<<red<<"COLUNA: "<<normal;
             cin >> colunaJogada;
-            colunaReal = formNumber(tolower(colunaJogada));
+            colunaReal = turnIntoNumber(tolower(colunaJogada));
         }
 
         
@@ -391,8 +391,7 @@ void Jogo(string nomeDoJogador){
         mascara[linhaJogada][colunaReal] = tabuleiro[linhaJogada][colunaReal];
         tentativas++;
     }
-    limpaTela();    
-    cout<<normal;
+    limpaTela();
     exibeMapa();
     exibeGabaritoFinal(tabuleiro);
     cout<<"\nFim de jogo, o que deseja fazer?";
