@@ -357,7 +357,7 @@ void verificaTiro(char tabuleiro[15][15],int linhaJogada,int colunaJogada,int *p
 void menuInicial();
 
 void Jogo(string nomeDoJogador){
-    char tabuleiro[15][15],mascara[15][15];
+    char tabuleiro[15][15],mascara[15][15],guardarPosicaoDoTiro[15][15];
     int linhaJogada,colunaReal; // if estado_deJogo == 0, game over
     char colunaJogada;
     char red[] = {0x1b,'[','1',';','3','1','m',0};
@@ -384,12 +384,15 @@ void Jogo(string nomeDoJogador){
             cin >> colunaJogada;
             colunaReal = turnIntoNumber(tolower(colunaJogada));
         }
+        if(guardarPosicaoDoTiro[linhaJogada][colunaReal] != tabuleiro[linhaJogada][colunaReal]){
+            verificaTiro(tabuleiro,linhaJogada,colunaReal,&pontos,&mensagem);
+            mascara[linhaJogada][colunaReal] = tabuleiro[linhaJogada][colunaReal];
+            tentativas++;
 
-        
-        verificaTiro(tabuleiro,linhaJogada,colunaReal,&pontos,&mensagem);
-
-        mascara[linhaJogada][colunaReal] = tabuleiro[linhaJogada][colunaReal];
-        tentativas++;
+        }else{
+            mensagem = "Vc ja tentou isso antes!!";
+        }
+        guardarPosicaoDoTiro[linhaJogada][colunaReal] = tabuleiro[linhaJogada][colunaReal];
     }
     limpaTela();
     cout<<normal;
@@ -418,6 +421,14 @@ void Jogo(string nomeDoJogador){
 }
 
 void menuInicial(){
+    char blue[] = {0x1b,'[','1',';','3','4','m',0};
+    char green[] = {0x1b,'[','1',';','3','2','m',0};
+    char yellow[] = {0x1b,'[','1',';','3','3','m',0};
+    char pink[] = {0x1b,'[','1',';','3','5','m',0};
+    char gray[] = {0x1b,'[','1',';','3','0','m',0};
+    char red[] = {0x1b,'[','1',';','3','1','m',0};
+    char normal[] = {0x1b,'[','1',';','3','9','m',0};
+
     int opcao = 0;
     string nomeDoJogador;
     while(opcao <1 || opcao>3){
@@ -435,6 +446,8 @@ void menuInicial(){
                 Jogo(nomeDoJogador);
                 break;
             case 2:
+                cout<<normal<<"\nNavios     |Arquitetura\n"<<"Cruzadores |"<<red<<"[C][C]\n"<<normal<<"Escouraçado|"<<yellow<<"[E][E][E][E]\n"<<normal<<"Hidroavião |"<<pink<<" [H]   [H]\n"<<normal<<"           |"<<pink<<"    [H]\n"<<normal<<"Porto-avião|"<<gray<<"[P][P][P][P][P]\n"<<normal<<"Submarino  |"<<green<<"[S]\n"<<normal;
+                cout<<normal<<"\nExistem no mapa "<<red<<"3 Cruzadores"<<normal<<"\nExistem no mapa"<<yellow<<" 2 Escouraçados"<<normal<<"\nExistem no mapa "<<pink<<"3 Hidroaviões"<<normal<<"\nExiste no mapa "<<gray<<"1 Porto-avião"<<normal<<"\nExistem no mapa "<<green<<"4 Submarinos"<<normal<<"\n";
                 break;
             case 3:
                 cout << "Ate mais U.U\n";
